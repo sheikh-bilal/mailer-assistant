@@ -1,0 +1,28 @@
+{
+  "name": "Mailer Extension",
+  "description": "A basic Chrome extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/mailer.png"
+  },
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/sparkle.png"],
+      "matches": ["https://mail.google.com/*"]
+    }
+  ]
+}
