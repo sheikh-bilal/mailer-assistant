@@ -5,11 +5,4 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    rollupOptions: {
-      input: {
-        popup: path.resolve(__dirname, "public/popup.html"),
-      },
-    },
-  },
 });
