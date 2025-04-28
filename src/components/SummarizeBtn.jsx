@@ -7,9 +7,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetFooter,
-} from "@shadcn/ui/sheet";
-import { Button as ShadButton } from "@shadcn/ui/button";
-import { Spinner } from "@shadcn/ui";
+} from "@/components/ui/sheet";
+import { Button as ShadButton } from "@/components/ui/button";
 import { GeminiCall } from "../api/gemini";
 import { getEmailContent } from "../utils/emailContent";
 import { sendInlineReply } from "../utils/response";
@@ -26,16 +25,16 @@ function EmailSummarizerSheet() {
       try {
         const emailText = getEmailContent();
         const prompt = `
-You are an expert email summarizer.
+          You are an expert email summarizer.
 
-1. Read the following **Email Content**.
-2. Extract key information such as updates, deadlines, requests, and questions.
-3. Write a plain-text summary using simple bullet points (no bold, no formatting).
+          1. Read the following **Email Content**.
+          2. Extract key information such as updates, deadlines, requests, and questions.
+          3. Write a plain-text summary using simple bullet points (no bold, no formatting).
 
-Email Content:
-${emailText}
+          Email Content:
+          ${emailText}
 
-Summary:`;
+          Summary:`;
         const result = await GeminiCall(emailText, prompt);
         setSummary(result);
       } catch (e) {
@@ -52,24 +51,23 @@ Summary:`;
     setIsResponding(true);
     try {
       const prompt = `
-You are an expert email assistant.
+        You are an expert email assistant.
 
-Instructions:
-1. Read the **Email Summary** and note all participants and actions.
-2. Determine who in the summary most recently asked a question or offered assistance (the "last sender").
-3. Begin your reply with "Hi [Name]," addressing only that person.
-4. Acknowledge their inquiry or offer.
-5. Give the information or next steps they requested, from the perspective of the recipient.
-6. Use bullet points only when they make your reply clearer.
-7. Write a plain-text using simple bullet points (no bold, no formatting).
-8. Do **not** add a subject line or a sign-off.
-9. Keep the tone natural, helpful, and human.
+        Instructions:
+        1. Read the **Email Summary** and note all participants and actions.
+        2. Determine who in the summary most recently asked a question or offered assistance (the "last sender").
+        3. Begin your reply with "Hi [Name]," addressing only that person.
+        4. Acknowledge their inquiry or offer.
+        5. Give the information or next steps they requested, from the perspective of the recipient.
+        6. Use bullet points only when they make your reply clearer.
+        7. Write a plain-text using simple bullet points (no bold, no formatting).
+        8. Do **not** add a subject line or a sign-off.
+        9. Keep the tone natural, helpful, and human.
 
-**Email Summary:**
-${summary}
+        **Email Summary:**
+        ${summary}
 
-Your reply:
-`;
+        Your reply:`;
       const response = await GeminiCall(summary, prompt);
       sendInlineReply(response);
       setIsOpen(false);
@@ -100,8 +98,8 @@ Your reply:
         <div className="p-4 flex-1 overflow-auto">
           {isLoading ? (
             <div className="flex flex-col items-center">
-              <Spinner />
-              <p>Generating summary...</p>
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-r-transparent border-t-transparent"></div>
+              <p className="mt-3 text-blue-600">Generating summary...</p>
             </div>
           ) : error ? (
             <div className="text-red-500">{error}</div>
